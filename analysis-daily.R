@@ -13,7 +13,8 @@ daily <- data %>%
          cases_to_population = cases_cum/popData2018*100,
          deaths_to_population = deaths_cum/popData2018*100) %>%
   
-  select(countriesAndTerritories, countryterritoryCode, dateRep, cases, cases_cum, deaths, deaths_cum, death_toll_cum, deaths_to_population)
+  select(countriesAndTerritories, countryterritoryCode, continentExp, dateRep, 
+         cases, cases_cum, deaths, deaths_cum, death_toll_cum, deaths_to_population)
 
 
 
@@ -25,6 +26,7 @@ daily <- data %>%
 
 #when a first death occured in each country
 first <- daily %>% filter(deaths_cum != 0) %>%
-  group_by(countriesAndTerritories) %>%
+  group_by(countriesAndTerritories, continentExp) %>%
   summarise(earliest = min(dateRep)) %>%
   arrange(earliest)
+  
