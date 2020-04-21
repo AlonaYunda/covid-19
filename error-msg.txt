@@ -1,0 +1,7 @@
+Please quit and reopen your R session and IDE (if you are using one, such as RStudio or Emacs) and check if tinytex:::is_tinytex() is TRUE.
+
+Warning message:
+
+Detected an existing LaTeX distribution (e.g., pdftex is at C:\Users\alona\AppData\Local\Programs\MIKTEX~1.9\miktex\bin\x64\pdftex.exe). 
+
+You are recommended to uninstall it, although TinyTeX should work well alongside another LaTeX distribution if a LaTeX document is compiled through tinytex::latexmk().

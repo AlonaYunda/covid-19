@@ -1,0 +1,44 @@
+---
+title: "Covid-19 report"
+author: ""
+date: "19/04/2020"
+output: 
+  bookdown::pdf_document2:
+    df_print: kable
+tidy: styler
+editor_options:
+  chunk_output_type: console
+---
+
+## Top 10 table
+
+This is an R Markdown document.
+
+```{r summary-table, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+source("get-data.R")
+
+data %>% 
+  group_by(countriesAndTerritories) %>%
+  summarise(cases = sum(cases), deaths = sum(deaths), population = unique(popData2018)) %>% 
+  
+  mutate(death_toll = round(deaths/cases*100, digits = 2),
+         cases_to_population = round(cases/population*100, digits = 2),
+         deaths_to_population = round(deaths/population*100, digits = 2),
+         
+         cases = as.numeric(cases),
+         deaths = as.numeric(deaths),
+         population = as.numeric(population)) %>%
+  
+  arrange(desc(deaths)) %>%
+  
+  slice(1:10) %>%
+  select(countriesAndTerritories, cases, deaths, deaths_to_population) %>%
+  
+  knitr::kable (caption = "Top 10 countries with the highest death toll") %>% 
+  kableExtra::kable_styling(latex_options = "striped")
+
+```
+
+

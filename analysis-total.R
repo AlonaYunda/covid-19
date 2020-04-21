@@ -1,5 +1,7 @@
 library(tidyverse)
 
+source("get-data.R")
+
 str(data)
 sum(is.na(data$countriesAndTerritories)) #no NAs
 

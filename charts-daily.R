@@ -1,8 +1,12 @@
 library(ggthemes)
-library(RColorBrewer)
 library(scales)
 
 #mutate(axis_titles = str_c(gsub("_", " ", daily$countriesAndTerritories), " (", daily$deaths_total, ")" ) )
+
+source("get-data.R")
+source("analysis-daily.R")
+source("analysis-total.R")
+source("C:/Users/alona/projects/set-colours.R")
 
 
 
@@ -25,7 +29,9 @@ daily %>% transform(countriesAndTerritories = factor(countriesAndTerritories, le
 
 
 #Line chart for top countries
-myColours <- c(fastmarkets_pal[1:30])
+length(countries)
+
+myColours <- c(fastmarkets_pal[1:32])
 names(myColours) <- levels(countries)
 colScale <- scale_colour_manual(name = "countriesAndTerritories", values = myColours)
 
@@ -64,6 +70,19 @@ daily %>% transform(countriesAndTerritories = factor(countriesAndTerritories, le
 
 
 #tile chart 
+date <- format(Sys.Date(), "%B %d")
+
+#daily <- daily %>% group_by(countriesAndTerritories) %>% 
+  #mutate(AxisTitles = str_c(countriesAndTerritories, " (", max(deaths_cum), ")" ), ) %>% 
+  #ungroup()
+
+#daily$AxisTitles <- daily$AxisTitles %>%
+  #gsub("_", " ", .)
+
+#axistitles <- daily %>% filter(countriesAndTerritories %in% countries10) %>%
+  #select(countriesAndTerritories, AxisTitles) %>% unique()
+
+
 daily %>% transform(countriesAndTerritories = factor(countriesAndTerritories, levels = rev(countries10))) %>%
   arrange(countriesAndTerritories) %>%
   filter(countriesAndTerritories %in% countries10) %>%
@@ -74,9 +93,14 @@ daily %>% transform(countriesAndTerritories = factor(countriesAndTerritories, le
   theme_minimal() + 
   theme(plot.title = element_text(hjust = 0.5), panel.grid = element_blank(), legend.title = element_blank() ) +
   ggtitle("Death toll as a share of total population (%)") +
-  ylab("Country and its total death toll as of April 17") +
+  ylab(str_c("Country and its total death toll as of ", date)) +
   xlab("") +
-  scale_x_date(limits = as.Date(c("2020-03-15","2020-04-17"))) +
+  scale_x_date(limits = as.Date(c("2020-03-01", date))) +
   scale_y_discrete(limits = levels(countries10))
 
-#change axis titles again for name+deaths
+
+
+#1st deaths illustrations
+
+
+
